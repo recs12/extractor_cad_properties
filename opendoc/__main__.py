@@ -14,16 +14,18 @@ from SolidEdgeFileProperties import Properties
 import os
 from api import Api
 
-def extract():
-    # location of the components.
-    _fastener = r"C:\Users\Slimane\Desktop\sample"
+
+
+def extract_properties_folder(location_parts):
     try:
         session = Api()
-        for par in os.listdir(_fastener):
+        fasteners_folder = os.listdir(location_parts)
+        name_of_folder = os.path.basename(location_parts)
+        for par in fasteners_folder:
             if par.endswith('.par') or par.endswith('.PAR'):
-                with open(os.path.join(_fastener, 'inv.txt') , 'a+') as inv:
+                with open(os.path.join(location_parts, name_of_folder+'.py') , 'a+') as inv:
                     # item = session.active_document()
-                    item = session.open_document(os.path.join(_fastener, par))
+                    item = session.open_document(os.path.join(location_parts, par))
                     properties = item.Properties
                     cad_name = str(par)
                     jde_number= properties('Custom').Item('JDELITM').value
@@ -33,10 +35,11 @@ def extract():
 
     except AssertionError as err:
         print(err.args)
-    except Exception as ex:
-        print(ex.args)
     else:
         pass
 
+def main():
+    extract_properties_folder(r'C:\Users\Slimane\Desktop\solidedge\Hardware\Nuts')
+
 if __name__ == "__main__":
-    extract()
+    main()

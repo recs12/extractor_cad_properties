@@ -41,12 +41,3 @@ class Api():
     def name(cls, part):
         return cls.part.Name
 
-
-class HoleCollection():
-
-    def __init__(self, doc):
-        self.holes = doc.HoleDataCollection
-        self.count = self.holes.Count
-
-    def threaded(self):
-        return (hole for hole in self.holes if hole.SubType=="Standard Thread")
